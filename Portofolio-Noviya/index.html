@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noviya Rahma</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        light: {
+                            bg1: '#FFF5F5', 
+                            bg2: '#FFD1D1', 
+                            text: '#4A2828', 
+                            accent: '#D37575' 
+                        },
+                        dark: {
+                            bg1: '#1A1616',
+                            bg2: '#292222',
+                            text: '#F7F1F1',
+                            accent: '#E29595'
+                        }
+                    },
+                    backgroundImage: {
+                        'sakura-gradient': 'linear-gradient(135deg, #FFF5F5 0%, #FFE3E3 100%)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#FAFAFA] text-light-text dark:bg-dark-bg1 dark:text-dark-text min-h-screen flex flex-col transition-colors duration-300 overflow-x-hidden [body:not(.dark)_&]:bg-gradient-to-br [body:not(.dark)_&]:from-[#FFF5F5] [body:not(.dark)_&]:to-[#FFE3E3]">
+    
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen" class="fixed inset-0 z-50 bg-[#FAFAFA] dark:bg-[#1A1616] flex flex-col justify-center items-center p-4 transition-all duration-500">
+        <div class="text-center max-w-md w-full">
+            <h2 class="text-2xl md:text-4xl font-bold mb-8 animate__animated animate__fadeInDown">Pilih Tema Portfolio</h2>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button id="choose-light" class="w-full sm:w-auto px-6 py-3 bg-[#F3E8E8] text-[#1F1A1A] font-semibold rounded-lg shadow-md hover:bg-[#C48F8F] hover:text-white transition-all transform hover:scale-105 text-sm md:text-base">
+                    ☀️ Light Mode
+                </button>
+                <button id="choose-dark" class="w-full sm:w-auto px-6 py-3 bg-[#292222] text-[#F7F1F1] font-semibold rounded-lg shadow-md hover:bg-[#E29595] hover:text-black transition-all transform hover:scale-105 text-sm md:text-base">
+                    🌙 Dark Mode
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BACKGROUND CANVAS -->
+    <canvas id="three-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
+
+    <!-- NAVIGATION BAR -->
+    <nav id="main-navbar" class="fixed top-0 left-0 w-full z-40 bg-light-bg2/80 dark:bg-dark-bg2/80 backdrop-blur-md border-b border-light-accent/20 dark:border-dark-accent/20 transition-transform duration-300 transform translate-y-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl md:text-2xl font-bold tracking-wider text-light-accent dark:text-dark-accent">NOVIYA RAHMA</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <button data-target="top" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-light-accent dark:hover:text-dark-accent transition-colors">Home</button>
+                        <button data-target="#about" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-light-accent dark:hover:text-dark-accent transition-colors">About</button>
+                        <button data-target="#archive" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-light-accent dark:hover:text-dark-accent transition-colors">Archive</button>
+                        <button data-target="#contact" class="nav-link px-3 py-2 rounded-md text-sm font-medium hover:text-light-accent dark:hover:text-dark-accent transition-colors">Contact</button>
+                    </div>
+                </div>
+                <div>
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-light-bg1 dark:bg-dark-bg1 border border-light-accent dark:border-dark-accent text-xs md:text-sm">
+                        🔄 Ubah Tema
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="w-full flex flex-col justify-start relative pt-16">
+
+        <!-- HERO SECTION -->
+        <main class="min-h-[calc(100vh-64px)] flex items-center justify-center px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+            <div class="max-w-4xl w-full text-center space-y-6">
+                <h1 id="hero-title" class="text-3xl sm:text-5xl md:text-7xl font-extrabold tracking-tight opacity-0">
+                    Halo, Saya <span class="text-light-accent dark:text-dark-accent">Noviya Rahma</span>
+                </h1>
+                <p id="hero-desc" class="text-sm sm:text-lg md:text-xl max-w-2xl mx-auto opacity-0 text-light-text/80 dark:text-dark-text/80">
+                    Selamat datang di ruang kreatif digital saya. Portofolio ini merangkum pendidikan, pengalaman kerja, dan kepribadian saya.
+                </p>
+                <div id="hero-btn" class="opacity-0">
+                    <button data-target="#about" class="inline-block px-8 py-3 bg-light-accent text-white dark:bg-dark-accent dark:text-dark-bg1 font-bold rounded-full shadow-lg hover:opacity-90 transition-opacity text-sm md:text-base">
+                        Start
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- ABOUT & EDUCATION SECTION -->
+        <section id="about" class="min-h-screen flex flex-col justify-center px-4 sm:px-6 lg:px-8 py-32 relative z-20 w-full max-w-7xl mx-auto">
+            <div class="w-full bg-light-bg1/90 dark:bg-dark-bg1/95 backdrop-blur-xl p-8 md:p-12 rounded-3xl shadow-2xl border border-light-accent/10 dark:border-dark-accent/10 grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="space-y-6 flex flex-col justify-center">
+                    <h2 id="about-title" class="text-3xl md:text-5xl font-bold text-light-accent dark:text-dark-accent">About Me</h2>
+                    <p class="text-sm md:text-base opacity-80 leading-relaxed">
+                        Saya merupakan pribadi yang dapat bekerjasama dengan tim maupun individu, berjiwa teliti, cekatan, dapat berkomunikasi secara baik serta mudah dalam memahami hal baru. 
+                    </p>
+                </div>
+
+                <div id="experience" class="space-y-6 border-t md:border-t-0 md:border-l border-light-accent/20 dark:border-dark-accent/20 pt-8 md:pt-0 md:pl-8">
+                    <h3 class="text-2xl font-bold tracking-tight mb-4">Education</h3>
+                    <div class="relative border-l border-light-accent/40 dark:border-dark-accent/40 ml-2 space-y-8">
+                        <div class="relative pl-6">
+                            <span class="absolute -left-[5px] top-1.5 w-2 h-2 bg-light-accent dark:bg-dark-accent rounded-full"></span>
+                            <span class="text-xs opacity-60 font-medium">2019 - 2022</span>
+                            <h4 class="font-bold text-sm md:text-base mt-1">SMA Negeri 1 Tamansari</h4>
+                            <p class="text-xs opacity-75 mt-0.5">Matematika dan Ilmu Pengetahuan Alam</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHIVE SLIDER SECTION -->
+        <section id="archive" class="min-h-screen w-full flex flex-col justify-center py-24 relative z-20 max-w-7xl mx-auto overflow-hidden px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-end mb-8 w-full z-30">
+                <div>
+                    <h2 id="slider-title-main" class="text-3xl md:text-5xl font-bold">Creative Chapters</h2>
+                    <p class="text-sm opacity-60 mt-1">Gunakan panah untuk mengeksplorasi 9 arsip visual</p>
+                </div>
+                <div class="flex space-x-3">
+                    <button id="prev-slide" class="w-12 h-12 rounded-full border border-light-accent/40 dark:border-dark-accent/40 bg-light-bg2/60 dark:bg-dark-bg2/60 flex items-center justify-center text-sm hover:bg-light-accent dark:hover:text-dark-accent hover:text-white dark:hover:text-black transition-all">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <button id="next-slide" class="w-12 h-12 rounded-full border border-light-accent/40 dark:border-dark-accent/40 bg-light-bg2/60 dark:bg-dark-bg2/60 flex items-center justify-center text-sm hover:bg-light-accent dark:hover:text-dark-accent hover:text-white dark:hover:text-black transition-all">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="w-full overflow-hidden relative">
+                <div id="slider-track" class="flex space-x-8" style="width: max-content;">
+                    
+                    <!-- Slide 01 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">01 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Tranquility</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Mengeksplorasi kedamaian visual lewat transisi warna pastel yang mengalir lembut di layar digital Anda.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 02 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">02 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Ethereal Glow</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Pendaran cahaya abstrak yang menyatu dengan algoritma interaktif, menghasilkan estetika modern yang premium.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 03 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">03 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Symmetry Art</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Keseimbangan bentuk geometris terstruktur dengan sentuhan emosi warna lembut yang memanjakan mata.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 04 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">04 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Digital Harmony</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Ruang di mana baris kode pemrograman fungsional berkolaborasi sempurna demi menciptakan mahakarya seni digital.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 05 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">05 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Pastel Dreams</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Kombinasi saturasi warna rendah yang membawa suasana tenang, nyaman, dan berkelas tinggi ke layar monitor.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 06 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">06 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Fluid Motion</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Simulasi pergerakan partikel interaktif cair yang merespons setiap geseran kursor mawar pengguna.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 07 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">07 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Cosmic Dark</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Eksplorasi mendalam galaksi konstelasi bintang 3D di bawah perlindungan kegelapan ruang redup bertenaga tinggi.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 08 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">08 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Minimalist Touch</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Mengutamakan ruang kosong yang luas agar informasi utama berharga dapat tersampaikan secara fokus dan instan.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                    <!-- Slide 09 -->
+                    <div class="slide-page relative w-[85vw] md:w-[32rem] h-[55vh] bg-light-bg2/70 dark:bg-dark-bg2/70 backdrop-blur-xl border border-light-accent/10 dark:border-dark-accent/10 p-10 rounded-[2rem] flex-shrink-0 flex flex-col justify-between overflow-hidden shadow-xl">
+                        <div class="slide-num text-xs font-bold tracking-widest text-light-accent dark:text-dark-accent opacity-0">09 / 09</div>
+                        <div class="z-10">
+                            <h3 class="slide-title text-3xl font-bold opacity-0 transform translate-y-6">Future Vision</h3>
+                            <p class="slide-desc text-sm opacity-70 mt-4 leading-relaxed opacity-0 transform translate-y-4">Langkah awal portofolio digital interaktif modern bertenaga akselerasi perangkat keras WebGL mutakhir.</p>
+                        </div>
+                        <div class="slide-bg-deco absolute -right-12 -bottom-12 w-40 h-40 bg-light-accent/20 dark:bg-dark-accent/20 blur-2xl rounded-full opacity-0 scale-75"></div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION (BARU) -->
+        <section id="contact" class="min-h-[60vh] w-full flex flex-col justify-center items-center px-4 sm:px-6 lg:px-8 py-24 relative z-20 max-w-4xl mx-auto text-center">
+            <div class="w-full bg-light-bg2/40 dark:bg-dark-bg2/40 backdrop-blur-md p-8 md:p-12 rounded-[2rem] border border-light-accent/20 dark:border-dark-accent/20 space-y-6">
+                <h2 class="text-3xl md:text-5xl font-bold text-light-accent dark:text-dark-accent">Get In Touch</h2>
+                <p class="text-sm md:text-base opacity-80 max-w-xl mx-auto">
+                    Mari terhubung! Saya selalu terbuka untuk mendiskusikan peluang kerja sama, proyek kreatif, atau sekadar bertukar ide.
+                </p>
+                <div class="flex justify-center space-x-6 pt-4 text-2xl">
+                    <a href="https://www.instagram.com/nvyarhma_/?utm_source=ig_web_button_share_sheet" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/noviya-rahma-6868b7245" target="_blank" rel="noopener noreferrer" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="https://wa.me/6283899607565" target="_blank" rel="noopener noreferrer" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="mailto:noviyarahma79@gmail.com" class="hover:text-light-accent dark:hover:text-dark-accent transition-colors"><i class="fa-regular fa-envelope"></i></a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- BACK TO TOP BUTTON -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 z-50 w-12 h-12 bg-light-accent text-white dark:bg-dark-accent dark:text-dark-bg1 rounded-full shadow-2xl flex items-center justify-center text-lg opacity-0 pointer-events-none scale-75 transition-all duration-350 hover:scale-110 active:scale-95">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- CUSTOM CURSOR -->
+    <div id="custom-cursor" class="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[999999] mix-blend-normal hidden md:block transform -translate-x-1/2 -translate-y-1/2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-full h-full drop-shadow-[0_0_6px_rgba(255,0,0,0.7)] transition-transform duration-200">
+            <path fill="#FF0000" d="M256,32C180,32,128,80,128,144c0,56,40,96,80,128c-32-8-64-32-80-64c-16,32-16,80,16,112c32,32,80,48,112,48s80-16,112-48c32-32,32-80,16-112c-16,32-48,56-80,64c40-32,80-72,80-128C384,80,332,32,256,32z"/>
+            <path fill="#B30000" d="M256,96c-40,0-64,24-64,56c0,24,16,48,48,64c-16-16-16-32,0-48c16,16,32,16,48,0c16,16,16,32,0,48c32-16,48-40,48-64C320,120,296,96,256,96z"/>
+            <path fill="#2D7A32" d="M256,328c-8,0-16,8-16,16v120c0,8,8,16,16,16s16-8,16-16V344C272,336,264,328,256,328z"/>
+        </svg>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.34/dist/lenis.min.js"></script>
+    <script src="three-animation.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

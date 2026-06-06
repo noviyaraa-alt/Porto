@@ -1,0 +1,69 @@
+/* --- LAYOUT & SINKRONISASI SMOOTH SCROLL (LENIS) --- */
+html {
+    scroll-behavior: auto !important; 
+    overflow-x: hidden;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
+}
+
+/* --- OPTIMASI LATAR BELAKANG ACCELERATION (THREE.JS) --- */
+#three-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    will-change: transform; 
+}
+
+/* --- DESAIN SCROLLBAR MINIMALIS PREMIUM --- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #D37575; /* Disamakan dengan light-accent Tailwind */
+    border-radius: 10px;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: #E29595; /* Disamakan dengan dark-accent Tailwind */
+}
+
+/* --- MANAJEMEN KURSOR DESKTOP VS LOADING SCREEN --- */
+@media (min-width: 768px) {
+    html, body, a, button, .nav-link, [data-target], #back-to-top {
+        cursor: none !important;
+    }
+    
+    /* Mengembalikan kursor default pada Loading Screen agar user tidak bingung saat memilih tema */
+    #loading-screen, 
+    #loading-screen button, 
+    #loading-screen h2 {
+        cursor: auto !important;
+    }
+}
+
+/* --- KURSOR MAWAR KUSTOM --- */
+#custom-cursor {
+    position: fixed; 
+    top: 0;          
+    left: 0;         
+    pointer-events: none; 
+    z-index: 999999 !important;
+    will-change: transform; 
+    /* Menggunakan transform murni agar sinkron dengan kalkulasi JavaScript GSAP */
+    transform: translate(-50%, -50%); 
+}
+
+/* Efek transisi saat kursor hover ke tombol (membesar/berputar melalui class JS nanti) */
+#custom-cursor svg {
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
